@@ -45,9 +45,9 @@ public class PokemonController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @GetMapping("/{numero}")
-//    public ResponseEntity<Pokemon> obterPokemonPeloNumero(@PathVariable String numero) {
-//        Optional<Pokemon> pokemon = pokemonService.buscarPokemonPeloNumero(numero);
-//        return pokemon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
+    @GetMapping("/{numero}")
+    public ResponseEntity<Pokemon> obterPokemonPeloNumero(@PathVariable String numero) {
+        Optional<Pokemon> pokemon = pokemonService.buscarPokemonPeloNumero(numero);
+        return pokemon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

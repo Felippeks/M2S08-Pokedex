@@ -65,7 +65,7 @@ public class PokemonService {
         }
     }
 
-//    public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
-//        return pokemonRepository.findByNumero(numero);
-//    }
+    public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
+        return pokemonRepository.findByNumero(numero);
+    }
 }

@@ -3,9 +3,12 @@ package br.com.senai.health.pokedex.service;
 import br.com.senai.health.pokedex.dto.PokemonCapturedDTO;
 import br.com.senai.health.pokedex.dto.PokemonListDTO;
 import br.com.senai.health.pokedex.dto.PokemonSeenDTO;
+import br.com.senai.health.pokedex.exception.InternalServerErrorException;
+import br.com.senai.health.pokedex.exception.PokemonNotFoundException;
 import br.com.senai.health.pokedex.model.Pokemon;
 import br.com.senai.health.pokedex.repository.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,32 +60,43 @@ public class PokemonService {
 
     public Optional<Pokemon> atualizarPokemon(String numero, PokemonCapturedDTO pokemonDTO) {
         Optional<Pokemon> pokemonExistente = pokemonRepository.findByNumero(numero);
-        pokemonExistente.ifPresent(pokemon -> {
-            pokemon.setNome(pokemonDTO.getNome());
-            pokemon.setDescricao(pokemonDTO.getDescricao());
-            pokemon.setImagemUrl(pokemonDTO.getImagemUrl());
-            pokemon.setTipo(pokemonDTO.getTipo());
-            pokemon.setCategoria(pokemonDTO.getCategoria());
-            pokemon.setAreaHabita(pokemonDTO.getAreaHabita());
-            pokemon.setAltura(pokemonDTO.getAltura());
-            pokemon.setPeso(pokemonDTO.getPeso());
-            pokemon.setCapturado(pokemonDTO.getCapturado());
-            pokemonRepository.save(pokemon);
-        });
-        return pokemonExistente;
-    }
-    public boolean excluirPokemonPeloNumero(String numero) {
-        Optional<Pokemon> pokemon = pokemonRepository.findByNumero(numero);
-        if (pokemon.isPresent()) {
-            pokemonRepository.delete(pokemon.get());
-            return true;
-        } else {
-            return false;
+        if (!pokemonExistente.isPresent()) {
+            throw new PokemonNotFoundException("Pokemon não encontrado");
+        }
+        try {
+            pokemonExistente.ifPresent(pokemon -> {
+                pokemon.setNome(pokemonDTO.getNome());
+                pokemon.setDescricao(pokemonDTO.getDescricao());
+                pokemon.setImagemUrl(pokemonDTO.getImagemUrl());
+                pokemon.setTipo(pokemonDTO.getTipo());
+                pokemon.setCategoria(pokemonDTO.getCategoria());
+                pokemon.setAreaHabita(pokemonDTO.getAreaHabita());
+                pokemon.setAltura(pokemonDTO.getAltura());
+                pokemon.setPeso(pokemonDTO.getPeso());
+                pokemon.setCapturado(pokemonDTO.getCapturado());
+                pokemonRepository.save(pokemon);
+            });
+            return pokemonExistente;
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Erro ao atualizar o Pokémon.");
         }
     }
 
-    public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
-        return pokemonRepository.findByNumero(numero);
+    public void excluirPokemonPeloNumero(String numero) throws PokemonNotFoundException, InternalServerErrorException {
+        Optional<Pokemon> pokemon = pokemonRepository.findByNumero(numero);
+        if (!pokemon.isPresent()) {
+            throw new PokemonNotFoundException("Pokemon não encontrado");
+        }
+        try {
+            pokemonRepository.delete(pokemon.get());
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Erro interno ao excluir o Pokémon.");
+        }
+    }
+
+    public Pokemon buscarPokemonPeloNumero(String numero) {
+        return pokemonRepository.findByNumero(numero)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon não encontrado"));
     }
 
     public List<PokemonListDTO> buscarTodosPokemons() {

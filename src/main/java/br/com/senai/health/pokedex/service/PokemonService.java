@@ -1,13 +1,16 @@
 package br.com.senai.health.pokedex.service;
 
 import br.com.senai.health.pokedex.dto.PokemonCapturedDTO;
+import br.com.senai.health.pokedex.dto.PokemonListDTO;
 import br.com.senai.health.pokedex.dto.PokemonSeenDTO;
 import br.com.senai.health.pokedex.model.Pokemon;
 import br.com.senai.health.pokedex.repository.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PokemonService {
@@ -67,5 +70,11 @@ public class PokemonService {
 
     public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
         return pokemonRepository.findByNumero(numero);
+    }
+
+    public List<PokemonListDTO> buscarTodosPokemons() {
+        return pokemonRepository.findAll().stream()
+                .map(pokemon -> new PokemonListDTO(pokemon.getNumero(), pokemon.getNome(), pokemon.getCapturado()))
+                .collect(Collectors.toList());
     }
 }

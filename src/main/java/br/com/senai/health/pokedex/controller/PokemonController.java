@@ -1,6 +1,7 @@
 package br.com.senai.health.pokedex.controller;
 
 import br.com.senai.health.pokedex.dto.PokemonCapturedDTO;
+import br.com.senai.health.pokedex.dto.PokemonListDTO;
 import br.com.senai.health.pokedex.dto.PokemonSeenDTO;
 import br.com.senai.health.pokedex.model.Pokemon;
 import br.com.senai.health.pokedex.service.PokemonService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,5 +51,11 @@ public class PokemonController {
     public ResponseEntity<Pokemon> obterPokemonPeloNumero(@PathVariable String numero) {
         Optional<Pokemon> pokemon = pokemonService.buscarPokemonPeloNumero(numero);
         return pokemon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<PokemonListDTO>> listarPokemons() {
+        List<PokemonListDTO> pokemons = pokemonService.buscarTodosPokemons();
+        return ResponseEntity.ok(pokemons);
     }
 }

@@ -29,6 +29,12 @@ public class PokemonController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{numero}")
+    public ResponseEntity<?> atualizarPokemon(@PathVariable String numero, @RequestBody PokemonCapturedDTO pokemonDTO) {
+        Optional<Pokemon> pokemonAtualizado = pokemonService.atualizarPokemon(numero, pokemonDTO);
+        return pokemonAtualizado.map(pokemon -> ResponseEntity.ok().build())
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 //    @GetMapping("/{numero}")
 //    public ResponseEntity<Pokemon> obterPokemonPeloNumero(@PathVariable String numero) {
 //        Optional<Pokemon> pokemon = pokemonService.buscarPokemonPeloNumero(numero);

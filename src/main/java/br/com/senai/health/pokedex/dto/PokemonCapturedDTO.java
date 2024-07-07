@@ -10,12 +10,13 @@ public class PokemonCapturedDTO {
     private String areaHabita;
     private Double altura;
     private Double peso;
+    private Boolean capturado;
 
     // Constructors
     public PokemonCapturedDTO() {
     }
 
-    public PokemonCapturedDTO(String numero, String nome, String descricao, String imagemUrl, String tipo, String categoria, String areaHabita, Double altura, Double peso) {
+    public PokemonCapturedDTO(String numero, String nome, String descricao, String imagemUrl, String tipo, String categoria, String areaHabita, Double altura, Double peso, Boolean capturado) {
         this.numero = numero;
         this.nome = nome;
         this.descricao = descricao;
@@ -25,6 +26,7 @@ public class PokemonCapturedDTO {
         this.areaHabita = areaHabita;
         this.altura = altura;
         this.peso = peso;
+        this.capturado = capturado;
     }
 
     // Getters and Setters
@@ -98,5 +100,13 @@ public class PokemonCapturedDTO {
 
     public void setPeso(Double peso) {
         this.peso = peso;
+    }
+
+    public Boolean getCapturado() {
+        return capturado;
+    }
+
+    public void setCapturado(Boolean capturado) {
+        this.capturado = capturado;
     }
 }

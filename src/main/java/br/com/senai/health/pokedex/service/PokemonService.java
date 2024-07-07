@@ -39,6 +39,22 @@ public class PokemonService {
         pokemon.setCapturado(true); // Definindo como capturado
         pokemonRepository.save(pokemon);
     }
+    public Optional<Pokemon> atualizarPokemon(String numero, PokemonCapturedDTO pokemonDTO) {
+        Optional<Pokemon> pokemonExistente = pokemonRepository.findByNumero(numero);
+        pokemonExistente.ifPresent(pokemon -> {
+            pokemon.setNome(pokemonDTO.getNome());
+            pokemon.setDescricao(pokemonDTO.getDescricao());
+            pokemon.setImagemUrl(pokemonDTO.getImagemUrl());
+            pokemon.setTipo(pokemonDTO.getTipo());
+            pokemon.setCategoria(pokemonDTO.getCategoria());
+            pokemon.setAreaHabita(pokemonDTO.getAreaHabita());
+            pokemon.setAltura(pokemonDTO.getAltura());
+            pokemon.setPeso(pokemonDTO.getPeso());
+            pokemon.setCapturado(pokemonDTO.getCapturado());
+            pokemonRepository.save(pokemon);
+        });
+        return pokemonExistente;
+    }
 
 //    public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
 //        return pokemonRepository.findByNumero(numero);

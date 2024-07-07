@@ -55,6 +55,15 @@ public class PokemonService {
         });
         return pokemonExistente;
     }
+    public boolean excluirPokemonPeloNumero(String numero) {
+        Optional<Pokemon> pokemon = pokemonRepository.findByNumero(numero);
+        if (pokemon.isPresent()) {
+            pokemonRepository.delete(pokemon.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 //    public Optional<Pokemon> buscarPokemonPeloNumero(String numero) {
 //        return pokemonRepository.findByNumero(numero);

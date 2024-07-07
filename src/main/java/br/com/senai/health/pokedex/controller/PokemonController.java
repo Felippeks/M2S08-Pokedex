@@ -35,6 +35,16 @@ public class PokemonController {
         return pokemonAtualizado.map(pokemon -> ResponseEntity.ok().build())
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<?> excluirPokemon(@PathVariable String numero) {
+        boolean excluido = pokemonService.excluirPokemonPeloNumero(numero);
+        if (excluido) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 //    @GetMapping("/{numero}")
 //    public ResponseEntity<Pokemon> obterPokemonPeloNumero(@PathVariable String numero) {
 //        Optional<Pokemon> pokemon = pokemonService.buscarPokemonPeloNumero(numero);

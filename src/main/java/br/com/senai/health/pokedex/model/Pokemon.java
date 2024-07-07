@@ -22,7 +22,7 @@ public class Pokemon {
     private String areaHabita;
     private Double altura;
     private Double peso;
-    private Boolean capturado;
+    private Boolean capturado = false;
 
 
     public Long getId() {

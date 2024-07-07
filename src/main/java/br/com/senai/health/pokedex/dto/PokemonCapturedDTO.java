@@ -1,11 +1,13 @@
 package br.com.senai.health.pokedex.dto;
 
+import br.com.senai.health.pokedex.model.Type;
+
 public class PokemonCapturedDTO {
     private String numero;
     private String nome;
     private String descricao;
     private String imagemUrl;
-    private String tipo;
+    private Type tipo;
     private String categoria;
     private String areaHabita;
     private Double altura;
@@ -16,7 +18,7 @@ public class PokemonCapturedDTO {
     public PokemonCapturedDTO() {
     }
 
-    public PokemonCapturedDTO(String numero, String nome, String descricao, String imagemUrl, String tipo, String categoria, String areaHabita, Double altura, Double peso, Boolean capturado) {
+    public PokemonCapturedDTO(String numero, String nome, String descricao, String imagemUrl, Type tipo, String categoria, String areaHabita, Double altura, Double peso, Boolean capturado) {
         this.numero = numero;
         this.nome = nome;
         this.descricao = descricao;
@@ -62,11 +64,11 @@ public class PokemonCapturedDTO {
         this.imagemUrl = imagemUrl;
     }
 
-    public String getTipo() {
+    public Type getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(Type tipo) {
         this.tipo = tipo;
     }
 

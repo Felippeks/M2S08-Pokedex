@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Pokemon {
@@ -14,10 +16,14 @@ public class Pokemon {
     private String nome;
     private String descricao;
     private String imagemUrl;
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private Type tipo;
     private String categoria;
     private String areaHabita;
     private Double altura;
+    private Double peso;
+    private Boolean capturado;
+
 
     public Long getId() {
         return id;
@@ -59,11 +65,11 @@ public class Pokemon {
         this.imagemUrl = imagemUrl;
     }
 
-    public String getTipo() {
+    public Type getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(Type tipo) {
         this.tipo = tipo;
     }
 
@@ -106,8 +112,4 @@ public class Pokemon {
     public void setCapturado(Boolean capturado) {
         this.capturado = capturado;
     }
-
-    private Double peso;
-    private Boolean capturado;
-
 }

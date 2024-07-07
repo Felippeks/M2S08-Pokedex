@@ -1,20 +1,24 @@
 package br.com.senai.health.pokedex.dto;
 
+import br.com.senai.health.pokedex.model.Type;
+
 public class PokemonSeenDTO {
     private String numero;
     private String nome;
     private String imagemUrl;
     private String areaHabita;
+    private Type tipo;
 
     // Constructors
     public PokemonSeenDTO() {
     }
 
-    public PokemonSeenDTO(String numero, String nome, String imagemUrl, String areaHabita) {
+    public PokemonSeenDTO(String numero, String nome, String imagemUrl, String areaHabita, Type tipo) {
         this.numero = numero;
         this.nome = nome;
         this.imagemUrl = imagemUrl;
         this.areaHabita = areaHabita;
+        this.tipo = tipo;
     }
 
     // Getters and Setters
@@ -48,5 +52,13 @@ public class PokemonSeenDTO {
 
     public void setAreaHabita(String areaHabita) {
         this.areaHabita = areaHabita;
+    }
+
+    public Type getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Type tipo) {
+        this.tipo = tipo;
     }
 }

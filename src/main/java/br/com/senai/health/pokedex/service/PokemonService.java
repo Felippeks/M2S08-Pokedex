@@ -19,18 +19,30 @@ public class PokemonService {
     private PokemonRepository pokemonRepository;
 
     public void cadastrarPokemonVisto(PokemonSeenDTO pokemonSeenDTO) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.setNumero(pokemonSeenDTO.getNumero());
-        pokemon.setNome(pokemonSeenDTO.getNome());
-        pokemon.setImagemUrl(pokemonSeenDTO.getImagemUrl());
-        pokemon.setAreaHabita(pokemonSeenDTO.getAreaHabita());
-        pokemon.setCapturado(false); // Definindo como visto, não capturado
-        pokemonRepository.save(pokemon);
+        Optional<Pokemon> pokemonExistente = pokemonRepository.findByNumero(pokemonSeenDTO.getNumero());
+        Pokemon pokemon = pokemonExistente.orElseGet(() -> {
+            Pokemon novoPokemon = new Pokemon();
+            novoPokemon.setNumero(pokemonSeenDTO.getNumero());
+            return novoPokemon;
+        });
+
+        if (!pokemon.getCapturado()) {
+            pokemon.setNome(pokemonSeenDTO.getNome());
+            pokemon.setImagemUrl(pokemonSeenDTO.getImagemUrl());
+            pokemon.setAreaHabita(pokemonSeenDTO.getAreaHabita());
+            pokemon.setCapturado(false);
+            pokemonRepository.save(pokemon);
+        }
     }
 
     public void cadastrarPokemonCapturado(PokemonCapturedDTO pokemonCapturedDTO) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.setNumero(pokemonCapturedDTO.getNumero());
+        Optional<Pokemon> pokemonExistente = pokemonRepository.findByNumero(pokemonCapturedDTO.getNumero());
+        Pokemon pokemon = pokemonExistente.orElseGet(() -> {
+            Pokemon novoPokemon = new Pokemon();
+            novoPokemon.setNumero(pokemonCapturedDTO.getNumero());
+            return novoPokemon;
+        });
+
         pokemon.setNome(pokemonCapturedDTO.getNome());
         pokemon.setDescricao(pokemonCapturedDTO.getDescricao());
         pokemon.setImagemUrl(pokemonCapturedDTO.getImagemUrl());
@@ -39,9 +51,10 @@ public class PokemonService {
         pokemon.setAreaHabita(pokemonCapturedDTO.getAreaHabita());
         pokemon.setAltura(pokemonCapturedDTO.getAltura());
         pokemon.setPeso(pokemonCapturedDTO.getPeso());
-        pokemon.setCapturado(true); // Definindo como capturado
+        pokemon.setCapturado(true);
         pokemonRepository.save(pokemon);
     }
+
     public Optional<Pokemon> atualizarPokemon(String numero, PokemonCapturedDTO pokemonDTO) {
         Optional<Pokemon> pokemonExistente = pokemonRepository.findByNumero(numero);
         pokemonExistente.ifPresent(pokemon -> {

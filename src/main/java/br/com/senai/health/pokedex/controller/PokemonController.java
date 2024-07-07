@@ -7,32 +7,36 @@ import br.com.senai.health.pokedex.model.Pokemon;
 import br.com.senai.health.pokedex.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/pokemon")
+@Validated
 public class PokemonController {
 
     @Autowired
     private PokemonService pokemonService;
 
     @PostMapping("/visto")
-    public ResponseEntity<?> cadastrarPokemonVisto(@RequestBody PokemonSeenDTO pokemonSeenDTO) {
+    public ResponseEntity<?> cadastrarPokemonVisto(@Valid @RequestBody PokemonSeenDTO pokemonSeenDTO) {
         pokemonService.cadastrarPokemonVisto(pokemonSeenDTO);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/capturado")
-    public ResponseEntity<?> cadastrarPokemonCapturado(@RequestBody PokemonCapturedDTO pokemonCapturedDTO) {
+    public ResponseEntity<?> cadastrarPokemonCapturado(@Valid @RequestBody PokemonCapturedDTO pokemonCapturedDTO) {
         pokemonService.cadastrarPokemonCapturado(pokemonCapturedDTO);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{numero}")
-    public ResponseEntity<?> atualizarPokemon(@PathVariable String numero, @RequestBody PokemonCapturedDTO pokemonDTO) {
+    public ResponseEntity<?> atualizarPokemon(@PathVariable String numero, @Valid @RequestBody PokemonCapturedDTO pokemonDTO) {
         Optional<Pokemon> pokemonAtualizado = pokemonService.atualizarPokemon(numero, pokemonDTO);
         return pokemonAtualizado.map(pokemon -> ResponseEntity.ok().build())
                 .orElseGet(() -> ResponseEntity.notFound().build());

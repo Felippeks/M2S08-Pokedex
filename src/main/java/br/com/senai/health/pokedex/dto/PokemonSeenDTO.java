@@ -1,12 +1,19 @@
 package br.com.senai.health.pokedex.dto;
 
 import br.com.senai.health.pokedex.model.Type;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class PokemonSeenDTO {
+    @NotBlank(message = "O número do Pokémon é obrigatório")
     private String numero;
+    @NotBlank(message = "O nome do Pokémon é obrigatório")
     private String nome;
+    @NotBlank(message = "A URL da imagem do Pokémon é obrigatória")
     private String imagemUrl;
+    @NotBlank(message = "A área de habitação do Pokémon é obrigatória")
     private String areaHabita;
+    @NotNull(message = "O tipo do Pokémon é obrigatório")
     private Type tipo;
 
     // Constructors
